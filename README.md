@@ -3,4 +3,8 @@
 
 ### To run locally, run:
 
-        { parcel ./src/index.html }
+        parcel ./src/index.html
+
+### To deploy, push latest changes to main, then run:
+
+        npm run deploy
