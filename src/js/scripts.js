@@ -95,7 +95,7 @@ const options = {
   speed: 0.01,
   angle: 0.2,
   penumbra: 0,
-  intensity: 1
+  intensity: 100000
 };
 
 gui.addColor(options, 'sphereColor').onChange(function(e){
@@ -110,7 +110,7 @@ gui.add(options, 'speed', 0, 0.1);
 
 gui.add(options, 'angle', 0, 1);
 gui.add(options, 'penumbra', 0, 1);
-gui.add(options, 'intensity', 0, 100000);
+gui.add(options, 'intensity', 0, 200000);
 
 let step = 0;
 

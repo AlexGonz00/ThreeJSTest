@@ -2,6 +2,9 @@
   "name": "threetut",
   "version": "1.0.0",
   "scripts": {
+    "start": "parcel src/index.html",
+    "build": "parcel build src/index.html --public-url ./",
+    "deploy": "npm run build && gh-pages -d dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -9,6 +12,7 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "gh-pages": "^6.3.0",
     "parcel": "^2.16.4"
   },
   "dependencies": {
