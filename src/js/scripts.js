@@ -1,10 +1,13 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import * as dat from 'dat.gui';
+import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 import nebula from 'url:../img/nebula.jpg';
 import stars from 'url:../img/stars.jpg';
 import space from 'url:../img/outer_space.jpg';
+
+const monkeyUrl = new URL('../assets/monkey.glb', import.meta.url);
 
 const renderer = new THREE.WebGLRenderer();
 
@@ -131,7 +134,63 @@ const box2MultiMaterial = [
 const box2 = new THREE.Mesh(box2Geometry, box2MultiMaterial);
 scene.add(box2);
 box2.position.set(0, 5, 10);
-box2.material.map = textureLoader.load(nebula);
+//box2.material.map = textureLoader.load(nebula);
+
+const plane2Geometry = new THREE.PlaneGeometry(10, 10, 10, 10);
+const plane2Material = new THREE.MeshBasicMaterial({
+  color: 0xFFFFFF,
+  wireframe: true
+});
+const plane2 = new THREE.Mesh(plane2Geometry, plane2Material);
+scene.add(plane2);
+plane2.position.set(10, 10, 15);
+
+// change the position of the first vertex
+plane2.geometry.attributes.position.array[0] -= 10 * Math.random();
+plane2.geometry.attributes.position.array[1] -= 10 * Math.random();
+plane2.geometry.attributes.position.array[2] -= 10 * Math.random();
+const lastPointZ = plane2.geometry.attributes.position.array.length - 1;
+plane2.geometry.attributes.position.array[lastPointZ] -= 10 * Math.random();
+
+const sphere2Geometry = new THREE.SphereGeometry(4);
+
+// const vShader = `
+//     void main() {
+//         gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+//     }
+// `;
+
+// const fShader = `
+//     void main() {
+//         gl_FragColor = vec4(0.5, 0.5, 1.0, 1.0);
+//     }
+// `;
+
+const sphere2Material = new THREE.ShaderMaterial({
+  vertexShader: `
+    void main() {
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    }
+  `,
+  fragmentShader: `
+    void main() {
+      gl_FragColor = vec4(0.5, 0.5, 1.0, 1.0);
+    }
+  `
+});
+const sphere2 = new THREE.Mesh(sphere2Geometry, sphere2Material);
+scene.add(sphere2);
+sphere2.position.set(-5, 10, 10);
+
+const assetLoader = new GLTFLoader();
+
+assetLoader.load(monkeyUrl.href, function(gltf) {
+  const model = gltf.scene;
+  scene.add(model);
+  model.position.set(-12, 4, 10);
+}, undefined, function(error) {
+  console.log(error);
+});
 
 const gui = new dat.GUI();
 
@@ -170,6 +229,9 @@ window.addEventListener('mousemove', function(e) {
 
 const rayCaster = new THREE.Raycaster();
 
+const sphereId = sphere.id;
+box2.name = 'theBox';
+
 function animate(time) {
   box.rotation.y = time / 1000;
   renderer.render(scene, camera);
@@ -185,9 +247,39 @@ function animate(time) {
 
   rayCaster.setFromCamera(mousePosition, camera);
   const intersects = rayCaster.intersectObjects(scene.children);
-  console.log(intersects);
+  
+  sphere.material.color.set(options.sphereColor);  // set default color of sphere
+
+  // sort through interected objects
+  for (let i = 0; i < intersects.length; i++)
+  {
+    if (intersects[i].object.id === sphereId)
+    {
+      intersects[i].object.material.color.set(0xFF0000);
+    }
+
+    // rotate cube over time
+    if (intersects[i].object.name === 'theBox')
+    {
+      intersects[i].object.rotation.x += 0.01;
+      intersects[i].object.rotation.y += 0.01;
+    }
+
+  }
+
+  // plane2.geometry.attributes.position.array[0] -= 10 * Math.random();
+  // plane2.geometry.attributes.position.array[1] -= 10 * Math.random();
+  // plane2.geometry.attributes.position.array[2] -= 10 * Math.random();
+  // plane2.geometry.attributes.position.array[lastPointZ] -= 10 * Math.random();
+  // plane2.geometry.attributes.position.needsUpdate = true;
 
   renderer.render(scene, camera);
 }
 
 renderer.setAnimationLoop(animate);
+
+window.addEventListener('resize', function() {
+  camera.aspect = window.innerWidth / window.innerh;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, winddow.innerHeight);
+});
