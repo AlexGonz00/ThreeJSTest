@@ -2,6 +2,10 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import * as dat from 'dat.gui';
 
+import nebula from 'url:../img/nebula.jpg';
+import stars from 'url:../img/stars.jpg';
+import space from 'url:../img/outer_space.jpg';
+
 const renderer = new THREE.WebGLRenderer();
 
 // shadows
@@ -85,6 +89,49 @@ spotLight.angle = 0.2;  // fixes pixelated angels (somehow?)
 const sLightHelper = new THREE.SpotLightHelper(spotLight);
 scene.add(sLightHelper);
 
+//scene.fog = new THREE.Fog(0xFFFFFF, 0, 200);
+scene.fog = new THREE.FogExp2(0xFFFFFF, 0.01);
+
+// flat colored background
+//renderer.setClearColor(0xD0BA2F);
+
+// Textured background
+//const textureLoader = new THREE.TextureLoader();
+//scene.background = textureLoader.load(space);
+//const cubeTextureLoader = new THREE.CubeTextureLoader();
+//scene.background = cubeTextureLoader.load([
+//   nebula,
+//   nebula,
+//   stars,
+//   stars,
+//   stars,
+//   stars
+// ]);
+
+// Sphere skybox
+const textureLoader = new THREE.TextureLoader();
+const tex = textureLoader.load(space);
+tex.mapping = THREE.EquirectangularReflectionMapping; // Texture mapping constant that interprets a 2D image as a 360 degree view panoramic
+tex.colorSpace = THREE.SRGBColorSpace;
+scene.background = tex;
+
+const box2Geometry = new THREE.BoxGeometry(4, 4, 4);
+const box2Material = new THREE.MeshBasicMaterial({
+  //color: 0x0E72B5,
+  //map: textureLoader.load(nebula)
+});
+const box2MultiMaterial = [
+  new THREE.MeshBasicMaterial({map: textureLoader.load(stars)}),
+  new THREE.MeshBasicMaterial({map: textureLoader.load(stars)}),
+  new THREE.MeshBasicMaterial({map: textureLoader.load(nebula)}),
+  new THREE.MeshBasicMaterial({map: textureLoader.load(stars)}),
+  new THREE.MeshBasicMaterial({map: textureLoader.load(nebula)}),
+  new THREE.MeshBasicMaterial({map: textureLoader.load(stars)})
+];
+const box2 = new THREE.Mesh(box2Geometry, box2MultiMaterial);
+scene.add(box2);
+box2.position.set(0, 5, 10);
+box2.material.map = textureLoader.load(nebula);
 
 const gui = new dat.GUI();
 
@@ -114,6 +161,15 @@ gui.add(options, 'intensity', 0, 200000);
 
 let step = 0;
 
+const mousePosition = new THREE.Vector2();
+
+window.addEventListener('mousemove', function(e) {
+  mousePosition.x = (e.clientX / this.window.innerWidth) * 2 - 1;
+  mousePosition.y = - (e.clientY / this.window.innerHeight) * 2 + 1;
+});
+
+const rayCaster = new THREE.Raycaster();
+
 function animate(time) {
   box.rotation.y = time / 1000;
   renderer.render(scene, camera);
@@ -126,6 +182,10 @@ function animate(time) {
   spotLight.penumbra = options.penumbra;
   spotLight.intensity = options.intensity;
   sLightHelper.update();
+
+  rayCaster.setFromCamera(mousePosition, camera);
+  const intersects = rayCaster.intersectObjects(scene.children);
+  console.log(intersects);
 
   renderer.render(scene, camera);
 }
