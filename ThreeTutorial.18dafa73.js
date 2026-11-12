@@ -949,7 +949,7 @@ window.addEventListener('resize', function() {
     renderer.setSize(window.innerWidth, winddow.innerHeight);
 });
 
-},{"three":"dsoTF","three/examples/jsm/controls/OrbitControls.js":"45ipX","dat.gui":"329hF","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","url:../img/nebula.jpg":"iNkJz","url:../img/stars.jpg":"fGqEa","url:../img/outer_space.jpg":"aE6wj","46d709d3e4bdc395":"2rQY5","three/examples/jsm/loaders/GLTFLoader.js":"t3GCp"}],"dsoTF":[function(require,module,exports,__globalThis) {
+},{"three":"dsoTF","three/examples/jsm/controls/OrbitControls.js":"45ipX","dat.gui":"329hF","three/examples/jsm/loaders/GLTFLoader.js":"t3GCp","url:../img/nebula.jpg":"iNkJz","url:../img/stars.jpg":"fGqEa","url:../img/outer_space.jpg":"aE6wj","46d709d3e4bdc395":"2rQY5","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"dsoTF":[function(require,module,exports,__globalThis) {
 /**
  * @license
  * Copyright 2010-2026 Three.js Authors
@@ -58310,19 +58310,7 @@ var index = {
 };
 exports.default = index;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"iNkJz":[function(require,module,exports,__globalThis) {
-module.exports = module.bundle.resolve("nebula.3ec6f55f.jpg") + "?" + Date.now();
-
-},{}],"fGqEa":[function(require,module,exports,__globalThis) {
-module.exports = module.bundle.resolve("stars.3283a288.jpg") + "?" + Date.now();
-
-},{}],"aE6wj":[function(require,module,exports,__globalThis) {
-module.exports = module.bundle.resolve("outer_space.f81a8562.jpg") + "?" + Date.now();
-
-},{}],"2rQY5":[function(require,module,exports,__globalThis) {
-module.exports = module.bundle.resolve("monkey.eaacb59c.glb") + "?" + Date.now();
-
-},{}],"t3GCp":[function(require,module,exports,__globalThis) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"t3GCp":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 /**
@@ -62074,6 +62062,18 @@ function parallelTraverse(a, b, callback) {
     for(let i = 0; i < a.children.length; i++)parallelTraverse(a.children[i], b.children[i], callback);
 }
 
-},{"three":"dsoTF","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}]},["ktU33","dnnhU"], "dnnhU", "parcelRequire2f4f", {}, "./", "/")
+},{"three":"dsoTF","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"iNkJz":[function(require,module,exports,__globalThis) {
+module.exports = module.bundle.resolve("nebula.3ec6f55f.jpg") + "?" + Date.now();
+
+},{}],"fGqEa":[function(require,module,exports,__globalThis) {
+module.exports = module.bundle.resolve("stars.3283a288.jpg") + "?" + Date.now();
+
+},{}],"aE6wj":[function(require,module,exports,__globalThis) {
+module.exports = module.bundle.resolve("outer_space.f81a8562.jpg") + "?" + Date.now();
+
+},{}],"2rQY5":[function(require,module,exports,__globalThis) {
+module.exports = module.bundle.resolve("monkey.eaacb59c.glb") + "?" + Date.now();
+
+},{}]},["ktU33","dnnhU"], "dnnhU", "parcelRequire2f4f", {}, "./", "/")
 
 //# sourceMappingURL=ThreeTutorial.18dafa73.js.map
