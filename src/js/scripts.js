@@ -3,10 +3,15 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import * as dat from 'dat.gui';
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
 
+/*
 import nebula from 'url:../img/nebula.jpg';
 import stars from 'url:../img/stars.jpg';
 import space from 'url:../img/outer_space.jpg';
+*/
 
+const nebula = new URL ('../assets/img/nebula.jpg');
+const stars = new URL ('../assets/img/stars.jpg');
+const space = new URL ('../assets/img/outer_space.jpg');
 const monkeyUrl = new URL('../assets/monkey.glb', import.meta.url);
 
 const renderer = new THREE.WebGLRenderer();
