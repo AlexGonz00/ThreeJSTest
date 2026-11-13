@@ -9,9 +9,9 @@ import stars from 'url:../img/stars.jpg';
 import space from 'url:../img/outer_space.jpg';
 */
 
-const nebula = new URL ('../assets/img/nebula.jpg');
-const stars = new URL ('../assets/img/stars.jpg');
-const space = new URL ('../assets/img/outer_space.jpg');
+const nebula = new URL ('../img/nebula.jpg', import.meta.url);
+const stars = new URL ('../img/stars.jpg', import.meta.url);
+const space = new URL ('../img/outer_space.jpg', import.meta.url);
 const monkeyUrl = new URL('../assets/monkey.glb', import.meta.url);
 
 const renderer = new THREE.WebGLRenderer();
